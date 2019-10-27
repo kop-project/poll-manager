@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,7 @@ import java.util.Map;
  * Контроллер API менеджера опросов
  */
 @RestController
-@RequestMapping(value = "/api/v1/poll")
+@RequestMapping(value = "/api/v1/poll/")
 public class PollManagerRESTApi {
 
     private final PollManagerService pollManagerService;
@@ -38,14 +40,25 @@ public class PollManagerRESTApi {
             @RequestParam(name = "page", required = false) @Min(0) Integer page,
             @RequestParam(name = "pageSize", required = false) @Min(1) Integer pageSize,
             @RequestParam(name = "sortBy", required = false) Map<String, Boolean> sortBy,
-            @RequestParam(name = "filters", required = false) List<Map<String, Object>> filters) {
+            @RequestParam(name = "filters", required = false) List<Map<String, Object>> filters
+            ) {
+        /*Integer page = 0;
+        Integer pageSize = 5;
+        Map<String, Boolean> sortBy = new HashMap<>();
+        sortBy.put("POLL_NAME", Boolean.TRUE);
+        sortBy.put("DT_OPEN", Boolean.FALSE);
+
+        List<Map<String, Object>> filters = new ArrayList<>();
+        Map<String, Object> filter = new HashMap<>();
+        filter.put("POLL_NAME", "NNN");
+        filters.add(filter);*/
+
 
         if ((page == null || pageSize == null) && (sortBy == null || sortBy.isEmpty()) && (filters == null || filters.isEmpty())) {
-            pollManagerService.getPolls(page, pageSize, sortBy, filters);
+            return  ResponseEntity.ok(pollManagerService.getPolls());
         } else {
-            pollManagerService.getPolls();
+            return  ResponseEntity.ok(pollManagerService.getPolls(page, pageSize, sortBy, filters));
         }
-        return null;
     }
 
     @PutMapping
