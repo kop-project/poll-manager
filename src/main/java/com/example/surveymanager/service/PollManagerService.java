@@ -29,7 +29,7 @@ public interface PollManagerService {
      *
      * @return список опросов
      */
-    List<Poll> getPolls(Integer page, Integer pageSize, Map<String, Boolean> sortBy, List<Map<String, Object>> filters);
+    List<Poll> getPolls(Integer page, Integer pageSize, Map<String, Boolean> sortBy, Map<String, Object> filters);
 
 
     /**
@@ -43,6 +43,7 @@ public interface PollManagerService {
 
     /**
      * Удалить опрос
+     *
      * @param id id опроса
      */
     void removePoll(Long id);

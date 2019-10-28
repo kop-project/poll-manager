@@ -3,8 +3,7 @@ package com.example.surveymanager.service;
 import com.example.surveymanager.dto.PollRequestDTO;
 import com.example.surveymanager.model.Poll;
 
-public class PollServiceUtils {
-
+public class ConverterDtoToModel {
     public static Poll convertDtoToModel(PollRequestDTO pollRequestDTO) {
         return Poll.builder().
                 id(pollRequestDTO.getId())
@@ -14,4 +13,5 @@ public class PollServiceUtils {
                 .isActual(pollRequestDTO.getIsActual())
                 .build();
     }
+
 }

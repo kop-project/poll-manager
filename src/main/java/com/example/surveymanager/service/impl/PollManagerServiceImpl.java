@@ -10,8 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -36,19 +34,11 @@ public class PollManagerServiceImpl implements PollManagerService {
     }
 
     @Override
-    public List<Poll> getPolls(Integer page, Integer pageSize, Map<String, Boolean> sortBy, List<Map<String, Object>> filters) {
+    public List<Poll> getPolls(Integer page, Integer pageSize, Map<String, Boolean> sortBy, Map<String, Object> filters) {
         Sort sort = Sort.unsorted();
 
         for (Map.Entry<String, Boolean> entry : sortBy.entrySet()) {
-            String neededField = null;
-            for (Field field : Poll.class.getDeclaredFields()) {
-                Column column = field.getAnnotation(Column.class);
-                String columnName = column.name();
-                if (entry.getKey().equals(columnName)) {
-                    neededField = field.getName();
-                    break;
-                }
-            }
+            String neededField = PollServiceUtils.getField(entry.getKey());
 
             if (neededField == null) {
                 continue;
@@ -59,11 +49,10 @@ public class PollManagerServiceImpl implements PollManagerService {
                 sort = sort.and(Sort.by(neededField).descending());
             }
         }
-        Specification<Poll> specification = Specification.where(null);
 
-        for (Map<String, Object> filter : filters) {
-            filter.forEach((key, value) -> specification.and((Specification<Poll>) (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(key), value)));
-        }
+
+        Specification<Poll> specification = PollServiceUtils.getSpecifications(filters);
+
         return pollRepo.findAll(specification, PageRequest.of(page, pageSize, sort)).getContent();
     }
 
