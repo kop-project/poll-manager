@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="1" author="intech_user">
+        <createTable tableName="poll">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="true"/>
+            </column>
+
+            <column name="poll_name" type="varchar">
+                <constraints unique="true" nullable="false"/>
+            </column>
+
+            <column name="is_actual" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="dt_open" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="dt_close" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="2" author="intech_user">
+        <!-- password is 'password' -->
+        <insert tableName="poll">
+            <column name="poll_name" value="sport"/>
+            <column name="is_actual" valueBoolean="true"/>
+            <column name="dt_open" valueComputed="NOW()"/>
+            <column name="dt_close" valueComputed="NOW()"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>

@@ -52,6 +52,26 @@
             <scope>runtime</scope>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-maven-plugin -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-maven-plugin</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
