@@ -41,8 +41,8 @@ public class PollManagerRESTApi {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    @ApiOperation(value = "Создание опроса", response = ResponseEntity.class)
+    @GetMapping(value = "{idPoll}")
+    @ApiOperation(value = "Получение опроса", response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Опрос успешно найден"),
             @ApiResponse(code = 500, message = "Опрос с таким id не существует"),
@@ -51,10 +51,15 @@ public class PollManagerRESTApi {
             @RequestParam(name = "page", required = false) @Min(0) Integer page,
             @RequestParam(name = "pageSize", required = false) @Min(1) Integer pageSize,
             @RequestParam(name = "sortBy", required = false) Map<String, Boolean> sortBy,
-            @RequestParam(name = "filters", required = false) Map<String, Object> filters
+            @RequestParam(name = "filters", required = false) Map<String, Object> filters,
+            @PathVariable Long idPoll
     ) {
         if ((page == null || pageSize == null) && (sortBy == null || sortBy.isEmpty()) && (filters == null || filters.isEmpty())) {
-            return ResponseEntity.ok(pollManagerService.getPolls());
+            if (idPoll == null) {
+                return ResponseEntity.ok(pollManagerService.getPolls());
+            } else {
+                return ResponseEntity.ok(pollManagerService.getPoll(idPoll));
+            }
         } else {
             return ResponseEntity.ok(pollManagerService.getPolls(page, pageSize, sortBy, filters));
         }

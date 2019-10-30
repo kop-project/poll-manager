@@ -25,6 +25,14 @@ public interface PollManagerService {
     List<Poll> getPolls();
 
     /**
+     * Вернуть опрос по id
+     *
+     * @param id id опроса
+     * @return опросов
+     */
+    Poll getPoll(Long id);
+
+    /**
      * Вернуть опросы
      *
      * @return список опросов
