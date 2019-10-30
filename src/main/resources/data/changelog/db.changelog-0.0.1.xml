@@ -6,7 +6,20 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 
-    <changeSet id="1" author="intech_user">
+
+
+    <changeSet id="1" author="test_user">
+
+        <validCheckSum>8:abbc49af81b2b01104fef486c5dd917c</validCheckSum>
+
+
+        <preConditions onFail="WARN">
+            <not>
+                <tableExists tableName="poll"/>
+            </not>
+        </preConditions>
+
+
         <createTable tableName="poll">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="true"/>
@@ -28,11 +41,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-    </changeSet>
 
 
-    <changeSet id="2" author="intech_user">
-        <!-- password is 'password' -->
         <insert tableName="poll">
             <column name="poll_name" value="sport"/>
             <column name="is_actual" valueBoolean="true"/>
